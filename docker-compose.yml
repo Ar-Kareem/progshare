@@ -9,9 +9,9 @@ services:
     #   - "127.0.0.1:4721:4721"
     command: redis-server ./redis.conf
     volumes:
-      - ./redis/redis-data:/redis/
-      - ./redis/redis.conf:/redis/redis.conf
-      - ./redis/.log:/redis/.log
+      - $PWD/redis/redis-data:/redis/
+      - $PWD/redis/redis.conf:/redis/redis.conf
+      - $PWD/redis/.log:/redis/.log
     restart: always
 
   web:
