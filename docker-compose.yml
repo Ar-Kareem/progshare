@@ -2,15 +2,16 @@ services:
   redis:
     image: redis:alpine
     container_name: "redis"
+    working_dir: /redis
     networks:
       - mynet
     ports:
-      - "6379:6379"
-    command: redis-server /usr/local/etc/redis/redis.conf
+      - "4721:4721"
+    command: redis-server ./redis.conf
     volumes:
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-      - ./redis/.log:/usr/local/etc/redis/.log
-      - /home/master/backend/redis/redis-data:/data
+      - ./redis/redis-data:/redis/
+      - ./redis/redis.conf:/redis/redis.conf
+      - ./redis/.log:/redis/.log
 
   web:
     build: ./app
