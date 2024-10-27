@@ -5,22 +5,25 @@ services:
     working_dir: /redis
     networks:
       - mynet
-    ports:
-      - "4721:4721"
+    # ports:
+    #   - "127.0.0.1:4721:4721"
     command: redis-server ./redis.conf
     volumes:
       - ./redis/redis-data:/redis/
       - ./redis/redis.conf:/redis/redis.conf
       - ./redis/.log:/redis/.log
+    restart: always
 
   web:
     build: ./app
     depends_on:
       - redis
+    links:
+      - redis
     networks:
       - mynet
     ports:
-      - "8000:5000"
+      - "127.0.0.1:8000:8000"
     restart: always
 
 
