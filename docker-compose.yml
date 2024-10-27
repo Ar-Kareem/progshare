@@ -1,0 +1,28 @@
+services:
+  redis:
+    image: redis:alpine
+    container_name: "redis"
+    networks:
+      - mynet
+    ports:
+      - "6379:6379"
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - /home/master/backend/redis-data:/data
+
+  web:
+    build: ./app
+    depends_on:
+      - redis
+    networks:
+      - mynet
+    ports:
+      - "8000:5000"
+    restart: always
+
+
+networks:
+  mynet:
+    driver: bridge
+
