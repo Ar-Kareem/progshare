@@ -11,13 +11,20 @@ logger = logging.getLogger(__name__)
 
 cache = redis.Redis(host='redis', port=4721)
 
+# init prog_count
+cache.setnx('prog_count', 10000)
+
 
 @app.route('/')
 def hello():
     return 'Hello World! {}.\n'.format(cache.incr('hits'))
 
+@app.route('/lastbackup')
+def lastbackup():
+    ls = cache.lastsave()
+    return 'Last backup: {}\n'.format(str(ls))
 
-@app.route('/save_prog')
+@app.route('/save_prog', methods=['POST'])
 def save_prog():
     post_data = request.get_json()
     prog = post_data['prog']
@@ -33,7 +40,8 @@ def save_prog():
         pipeline.reset()
         return {'resp': 'error', 'error': 'redis connection error'}
 
-@app.route('/get_prog')
+
+@app.route('/get_prog', methods=['POST'])
 def get_prog():
     post_data = request.get_json()
     key = post_data['key']
@@ -46,3 +54,4 @@ def get_prog():
         return {'resp': 'success', 'prog': prog}
     else:
         return {'resp': 'error', 'error': 'key not found'}
+
