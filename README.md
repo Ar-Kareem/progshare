@@ -1,5 +1,9 @@
 docker compose up --build
+docker compose up --build --remove-orphans --force-recreate
+docker-compose rm
 
 for redis cli:
-    docker ps (copy the id and paste below)
-    docker exec -it e0c061a5700bfa400f8f24b redis-cli
+    docker exec -it redis redis-cli -p 4721
+
+to edit redis .conf, need to own the file first:
+    sudo chown master ./redis/redis.conf
