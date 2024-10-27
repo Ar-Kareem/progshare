@@ -8,8 +8,9 @@ services:
       - "6379:6379"
     command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
-      - ./redis.conf:/usr/local/etc/redis/redis.conf
-      - /home/master/backend/redis-data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/.log:/usr/local/etc/redis/.log
+      - /home/master/backend/redis/redis-data:/data
 
   web:
     build: ./app
