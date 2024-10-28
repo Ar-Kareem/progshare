@@ -5,8 +5,6 @@ services:
     working_dir: /redis
     networks:
       - mynet
-    # ports:
-    #   - "127.0.0.1:6379:4721"
     command: redis-server ./redis.conf
     volumes:
       - $PWD/redis:/redis

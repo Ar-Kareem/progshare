@@ -10,6 +10,9 @@
 
     docker compose up --build --remove-orphans --force-recreate -d
 
+    (if you want the local redis port open)
+    docker compose -f docker-compose.yml -f docker-compose-redisport.yml up --build --remove-orphans --force-recreate -d
+
 ## other commands
 
 RSYNC from pi:
