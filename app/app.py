@@ -1,15 +1,22 @@
 import time
 import logging
+import os
 
+from dotenv import load_dotenv
 import redis
 import redis.exceptions
 from flask import Flask, request
 
 
-app = Flask(__name__)
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
+load_dotenv()
+
+app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY')
 cache = redis.Redis(host='redis', port=4721)
+
 
 # init prog_count
 cache.setnx('prog_count', 10000)
