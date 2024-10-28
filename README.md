@@ -1,8 +1,8 @@
 RSYNC from pi:
     rsync -r --exclude "venv" --exclude ".git" --rsync-path="sudo rsync" master@192.168.100.243:/home/master/backend/ ./backend/
 
-To run just run:
-    docker compose up --build --remove-orphans --force-recreate
+To run just run (remove -d to keep):
+    docker compose up --build --remove-orphans --force-recreate -d
     (needed if volumes change):
         docker-compose rm
 
