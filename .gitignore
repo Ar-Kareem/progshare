@@ -1,5 +1,7 @@
 /app/nginx_logs/
 /redis/dump.rdb
-/venv
+/venv/
 /redis/.log
 /app/.env
+/logs/
+/letsencrypt/

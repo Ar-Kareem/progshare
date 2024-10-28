@@ -31,8 +31,8 @@ services:
       - traefik.enable=true
       - traefik.constraint-label=${TRAEFIK_TAG?env missing}
       # match only paths that start with '/api/'
-      # - traefik.http.routers.backend.rule=Host(`${DOMAIN?env missing}`) && PathPrefix(`/api/`)
-      - traefik.http.routers.backend.rule=PathPrefix(`/`)
+      - traefik.http.routers.backend.rule=Host(`${DOMAIN?env missing}`) && PathPrefix(`/`)
+      # - traefik.http.routers.backend.rule=PathPrefix(`/`)
       # set the entrypoint to the ssl port
       - traefik.http.routers.backend.entrypoints=websecure
       # set that only ssl is accepted on this rout
