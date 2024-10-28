@@ -28,6 +28,9 @@ RSYNC directory from pi: (shouldn't need to use this)
 
     rsync -r --exclude "venv" --rsync-path="sudo rsync" master@192.168.100.243:/home/master/progshare/ ./progshare/
 
+stop -> pull -> start:
+
+    docker compose stop; git pull; docker compose -f docker-compose.yml -f docker-compose-redisport.yml up --build --remove-orphans --force-recreate -d
 
 needed if volumes change:
         
