@@ -21,6 +21,7 @@ cache = redis.Redis(host='redis', port=4721)
 # init prog_count
 cache.setnx('prog_count', 10000)
 
+MAX_PROG_SIZE = 16*1024  # 16KB
 
 @app.route('/')
 def hello():
@@ -38,13 +39,22 @@ def save_prog():
         prog = post_data['prog']
     except Exception:
         return {'resp': 'error', 'error': 'invalid JSON'}
+    if not isinstance(prog, str):
+        return {'resp': 'error', 'error': 'prog must be a string'}
+    if len(prog) > MAX_PROG_SIZE:  # 8KB
+        return {'resp': 'error', 'error': 'prog too long'}
+    metaprog = {
+        'ts': int(time.time()),
+        'ip': request.remote_addr,
+        'sz': len(prog),
+    }
     try:
         key = cache.incr('prog_count')
-        keyint = 'prog:' + str(key)
-        cache.set(keyint, prog)
+        cache.set('prog:' + str(key), prog)
+        cache.hmset('prog_meta:' + str(key), metaprog)
         return {'resp': 'success', 'key': key}
     except Exception as e:
-        return {'resp': 'error', 'error': 'redis connection error'}
+        return {'resp': 'error', 'error': 'db connection error'}
 
 
 @app.route('/get_prog', methods=['POST'])
