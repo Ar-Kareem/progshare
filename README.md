@@ -15,6 +15,7 @@
 RSYNC from pi:
 
     rsync -r --exclude "venv" --rsync-path="sudo rsync" master@192.168.100.243:/home/master/progshare/ ./progshare/
+    rsync -r --rsync-path="sudo rsync" master@192.168.100.243:/home/master/progshare/redis/dump.rdb ./dump.rdb
 
 needed if volumes change:
         
