@@ -20,3 +20,8 @@ else
     pip install --upgrade pip
 fi
 pip install -r ./app/requirements.txt
+
+echo "bugfix for redis logs permission issue"  # see https://unix.stackexchange.com/a/408510
+mkdir -p logs/redis
+touch logs/redis/redis-server.log
+chmod 660 logs/redis/redis-server.log

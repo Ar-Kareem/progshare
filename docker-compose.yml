@@ -8,11 +8,12 @@ services:
     command: redis-server ./redis.conf
     volumes:
       - $PWD/redis:/redis
+      - $PWD/logs/redis/:/app/logs/redis/
     restart: always
 
   web:
     build: 
-      context: ./app
+      context: $PWD/app
       args:
         - APP_ENV=prod
     depends_on:
@@ -24,7 +25,7 @@ services:
     # ports:
     #   - "8000:8000"
     volumes:
-      - $PWD/app/nginx_logs/:/var/log/nginx/
+      - $PWD/logs/nginx_logs/:/var/log/nginx/
     restart: always
     # traefik commands
     labels:
@@ -96,9 +97,9 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
       # to mount ssl certificates
-      - ./letsencrypt:/letsencrypt
+      - $PWD/letsencrypt:/letsencrypt
       # for accesslogs
-      - ./logs/traefik_logs:/app/traefik_logs
+      - $PWD/logs/traefik_logs:/app/traefik_logs
       # external traefik settings
       # - ./traefik.yml:/app/traefik.yml
     labels:
