@@ -19,3 +19,4 @@ else
     source ./venv/bin/activate
     pip install --upgrade pip
 fi
+pip install -r ./app/requirements.txt
