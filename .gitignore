@@ -1,4 +1,5 @@
-redis/dump.rdb
-venv
-.log
-.env
+/app/nginx_logs/
+/redis/dump.rdb
+/venv
+/redis/.log
+/app/.env
