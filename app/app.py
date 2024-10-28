@@ -23,14 +23,14 @@ cache.setnx('prog_count', 10000)
 
 MAX_PROG_SIZE = 16*1024  # 16KB
 
-@app.route('/')
+@app.route('/countcheck324')
 def hello():
-    return 'Hello World! {}.\n'.format(cache.incr('hits'))
+    return cache.incr('hits')
 
-@app.route('/lastbackup')
+@app.route('/lastbackup324')
 def lastbackup():
     ls = cache.lastsave()
-    return 'Last backup: {}\n'.format(str(ls))
+    return str(ls)
 
 @app.route('/save_prog', methods=['POST'])
 def save_prog():
