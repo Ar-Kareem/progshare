@@ -15,10 +15,19 @@
 
 ## other commands
 
-RSYNC from pi:
+vscode can view DB if you ssh into the server and connect to redis using `Database Client JDBC` extension.
+
+
+
+
+RSYNC DB from pi:
+
+    rsync -r --rsync-path="sudo rsync" master@192.168.100.243:/home/master/progshare/redis/dump.rdb ./dump.rdb
+
+RSYNC directory from pi: (shouldn't need to use this)
 
     rsync -r --exclude "venv" --rsync-path="sudo rsync" master@192.168.100.243:/home/master/progshare/ ./progshare/
-    rsync -r --rsync-path="sudo rsync" master@192.168.100.243:/home/master/progshare/redis/dump.rdb ./dump.rdb
+
 
 needed if volumes change:
         
