@@ -21,11 +21,26 @@ services:
       - redis
     networks:
       - mynet
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "8000:8000"
     volumes:
       - $PWD/app/nginx_logs/:/var/log/nginx/
     restart: always
+    # traefik commands
+    labels:
+      - traefik.enable=true
+      - traefik.constraint-label=${TRAEFIK_TAG?env missing}
+      # match only paths that start with '/api/'
+      # - traefik.http.routers.backend.rule=Host(`${DOMAIN?env missing}`) && PathPrefix(`/api/`)
+      - traefik.http.routers.backend.rule=PathPrefix(`/`)
+      # set the entrypoint to the ssl port
+      - traefik.http.routers.backend.entrypoints=websecure
+      # set that only ssl is accepted on this rout
+      - traefik.http.routers.backend.tls=true
+      # my certificate generated based on 'myresolver' defined above and the `Host` defined in the rule above
+      - traefik.http.routers.backend.tls.certresolver=myresolver
+      # implicitly define a service for this container and also tell traefik where the which port its on
+      - traefik.http.services.backend-service.loadbalancer.server.port=8000
 
   reverse-proxy:
     # The official v3 Traefik docker image
@@ -69,9 +84,6 @@ services:
 
       # external traefik settings
       # - --providers.file.filename=/app/traefik.yml
-    environment:
-      - DEV_DOMAIN
-      - DEV_INTERNAL_IP
     networks:
       - mynet
     ports:
