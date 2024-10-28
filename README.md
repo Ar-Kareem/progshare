@@ -1,7 +1,7 @@
 
 # Gettings started:
 
-    git clone https://github.com/Ar-Kareem/progshare.git
+    git clone git@github.com:Ar-Kareem/progshare.git
     cd progshare
 
     chmod +x ./init.sh
