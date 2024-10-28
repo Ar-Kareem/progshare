@@ -6,7 +6,7 @@ services:
     networks:
       - mynet
     # ports:
-    #   - "127.0.0.1:4721:4721"
+    #   - "127.0.0.1:6379:4721"
     command: redis-server ./redis.conf
     volumes:
       - $PWD/redis:/redis
