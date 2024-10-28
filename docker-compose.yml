@@ -27,8 +27,75 @@ services:
       - $PWD/app/nginx_logs/:/var/log/nginx/
     restart: always
 
+  reverse-proxy:
+    # The official v3 Traefik docker image
+    image: traefik:v3.1
+    # Enables the web UI and tells Traefik to listen to docker
+    command: 
+      # Enable Docker in Traefik, so that it reads labels from Docker services
+      - --providers.docker
+
+      # Add a constraint to only use services with the label for this stack
+      - --providers.docker.constraints=Label(`traefik.constraint-label`, `${TRAEFIK_TAG?Variable not set}`)
+      # Do not expose all Docker services, only the ones explicitly exposed by label traefik.enable=true
+      - --providers.docker.exposedbydefault=false
+      
+      # Enable the Traefik log, for configurations and errors
+      - --log.filePath=/app/traefik_logs/traefik_logs.json
+
+      # Enable the access log, with HTTP requests
+      - --accesslog.filePath=/app/traefik_logs/traefik_access.json
+      # - --accesslog.format=json
+      # - --accesslog.fields.headers.names.CF-Connecting-IP=keep
+      
+      # enable the web UI, insecure...
+      # - --api.insecure=true
+
+      # ROUTE HTTP TO HTTPS
+      # deine entrypoint called 'web' at port 80
+      - --entrypoints.web.address=:80
+      # deine entrypoint called 'websecure' at port 443
+      - --entrypoints.websecure.address=:443
+      # redirect the 'web'entry point to the 'websecure' entrypoint
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      # use the middleware built into traefik to convert to https
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+
+      # AUTO GENERATE SSL
+      - --certificatesResolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      # use staging server for the generation of ssl (for testing only, to not reach quota limit) (must uncomment otherwise browser will show warning for the ssl certificate)
+      - --certificatesResolvers.myresolver.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --certificatesResolvers.myresolver.acme.httpChallenge.entryPoint=web
+
+      # external traefik settings
+      # - --providers.file.filename=/app/traefik.yml
+    environment:
+      - DEV_DOMAIN
+      - DEV_INTERNAL_IP
+    networks:
+      - mynet
+    ports:
+      # The HTTP port
+      - "80:80"
+      - "443:443"
+      # The Web UI (enabled by --api.insecure=true)
+      # - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      # to mount ssl certificates
+      - ./letsencrypt:/letsencrypt
+      # for accesslogs
+      - ./logs/traefik_logs:/app/traefik_logs
+      # external traefik settings
+      # - ./traefik.yml:/app/traefik.yml
+    labels:
+      # Use my public network (declared below)
+      - traefik.docker.network=mynet
 
 networks:
   mynet:
+    external: false
     driver: bridge
+    name: mynet
 
