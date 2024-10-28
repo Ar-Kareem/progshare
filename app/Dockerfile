@@ -27,6 +27,7 @@ FROM ${BUILD_PLATFORM} as install-requirements
 # start production server by setting environment variables for uwsgi.ini
 FROM install-requirements as start-prod
     COPY . /app/backend
+    COPY ./nginx.conf /app/
     # point to our uswsgi.ini
     ENV UWSGI_INI /app/backend/uwsgi.ini
     ENV LISTEN_PORT 8000
