@@ -25,7 +25,7 @@ MAX_PROG_SIZE = 16*1024  # 16KB
 
 @app.route('/countcheck324')
 def hello():
-    return cache.incr('hits')
+    return '{0}'.format(cache.incr('hits'))
 
 @app.route('/lastbackup324')
 def lastbackup():
