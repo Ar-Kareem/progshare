@@ -1,11 +1,9 @@
-
+RSYNC from pi:
+    rsync -r --exclude "venv" --exclude ".git" --rsync-path="sudo rsync" master@192.168.100.243:/home/master/backend/ ./backend/
 
 To run just run:
-    docker compose up
-
-if not correctly updating:
     docker compose up --build --remove-orphans --force-recreate
-    more (only needed if volumes change):
+    (needed if volumes change):
         docker-compose rm
 
 for dev:
