@@ -1,3 +1,4 @@
 redis/dump.rdb
 venv
 .log
+.env

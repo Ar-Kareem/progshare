@@ -1,3 +1,5 @@
+
+
 To run just run:
     docker compose up
 
@@ -11,3 +13,4 @@ for redis cli:
 
 to edit redis .conf, need to own the file first:
     sudo chown master ./redis/redis.conf
+
