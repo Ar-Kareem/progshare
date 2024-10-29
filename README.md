@@ -1,8 +1,10 @@
-Very simple backend that supports settings and gettings public arbitrary strings of text (limited to 16KB). 
+Very simple server that supports settings and gettings public arbitrary strings of text (limited to 16KB). 
 
 This project is utilized in https://github.com/Ar-Kareem/PythonDiceWeb
 
-Uses three docker containers: 
+This server should be incredibally easy to setup with few commands below (using docker).
+
+This project uses three docker containers: 
 
 1. Reverse Proxy: Traefik [ports are exposed to internet]
 
@@ -21,14 +23,14 @@ Uses three docker containers:
 
     docker compose up --build --remove-orphans --force-recreate -d
 
-    (if you want the local redis port open)
-    docker compose -f docker-compose.yml -f docker-compose-redisport.yml up --build --remove-orphans --force-recreate -d
+    # (if you want the local redis port open)
+    # docker compose -f docker-compose.yml -f docker-compose-redisport.yml up --build --remove-orphans --force-recreate -d
 
 If `healthcheck_ssl.sh` returns `Is Alive: yes` then the containers are running and accessible to the public. Otherwise read below sections.
 
 ## Requirements:
 
-- All above commands ran successfully
+- All above commands ran successfully (will need docker installed)
 - The domain `$DOMAIN` in the `./.env` file points to the machine running the docker container (both ports `80` and `443`).
     - Example for home-server using sqaurespace domain: 
         - Go to squarespace `DNS Settings` and add a `Custom record` which makes `$DOMAIN` point to [your ip](https://api.ipify.org/?format=text)
@@ -45,6 +47,7 @@ If `healthcheck_ssl.sh` returns `Is Alive: yes` then the containers are running 
 
     chmod +x ./healthcheck_ssl.sh ; ./healthcheck_ssl.sh
 
+If `./healthcheck_ssl.sh` returns  `Is Alive: yes` then the containers are running and accessible to the public.
 
 ## Database Backup
 
