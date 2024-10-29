@@ -19,7 +19,8 @@ cache = redis.Redis(host='redis', port=4721)
 
 
 # init prog_count
-cache.setnx('prog_count', 10000)
+cache.set('prog_count', 10000, nx=True)
+cache.set('isup', 'yes', nx=True)
 
 MAX_PROG_SIZE = 16*1024  # 16KB
 
@@ -34,7 +35,7 @@ def lastbackup():
 
 @app.route('/isup')
 def isup():
-    return 'yes'
+    return cache.get('isup')
 
 @app.route('/save_prog', methods=['POST'])
 def save_prog():
