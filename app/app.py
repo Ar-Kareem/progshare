@@ -18,8 +18,8 @@ app.secret_key = os.getenv('SECRET_KEY')
 cache = redis.Redis(host='redis', port=4721)
 
 
-# init prog_count
-cache.set('prog_count', 10000, nx=True)
+# init count_prog
+cache.set('count_prog', 10000, nx=True)
 cache.set('isup', 'yes', nx=True)
 
 MAX_PROG_SIZE = 16*1024  # 16KB
@@ -46,7 +46,7 @@ def save_prog():
         return {'resp': 'error', 'error': 'invalid JSON'}
     if not isinstance(prog, str):
         return {'resp': 'error', 'error': 'prog must be a string'}
-    if len(prog) > MAX_PROG_SIZE:  # 8KB
+    if len(prog) > MAX_PROG_SIZE:
         return {'resp': 'error', 'error': 'prog too long'}
     metaprog = {
         'ts': int(time.time()),
@@ -54,9 +54,9 @@ def save_prog():
         'sz': len(prog),
     }
     try:
-        key = cache.incr('prog_count')
+        key = cache.incr('count_prog')
         cache.set('prog:' + str(key), prog)
-        cache.hmset('prog_meta:' + str(key), metaprog)
+        cache.hmset('prog:' + str(key) + ':meta', metaprog)
         return {'resp': 'success', 'key': key}
     except Exception as e:
         return {'resp': 'error', 'error': 'db connection error'}
