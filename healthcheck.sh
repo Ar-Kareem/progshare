@@ -1,2 +1,2 @@
 source .env
-echo "Is Alive:" $(curl "https://$DOMAIN/isup" -k -s)
+echo "Is Alive:" $(curl "https://$DOMAIN/isup" -k -sS)
