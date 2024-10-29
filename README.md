@@ -24,6 +24,8 @@ Uses three docker containers:
     (if you want the local redis port open)
     docker compose -f docker-compose.yml -f docker-compose-redisport.yml up --build --remove-orphans --force-recreate -d
 
+If `healthcheck_ssl.sh` returns `Is Alive: yes` then the containers are running and accessible to the public. Otherwise read below sections.
+
 ## Requirements:
 
 - All above commands ran successfully
