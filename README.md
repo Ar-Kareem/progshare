@@ -24,9 +24,14 @@
 
 ## Health Check
 
+(IGNORE SSL) Run below. should be `Is Alive: yes`.
+
     chmod +x ./healthcheck.sh ; ./healthcheck.sh
 
-If successful then terminal should output `Is Alive: yes`.
+(ENSURE SSL IS ON) Run below. should be `Is Alive: yes`.
+
+    chmod +x ./healthcheck_ssl.sh ; ./healthcheck_ssl.sh
+
 
 ## Read logs
 
