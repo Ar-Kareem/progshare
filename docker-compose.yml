@@ -25,7 +25,7 @@ services:
     # ports:
     #   - "8000:8000"
     volumes:
-      - $PWD/logs/nginx_logs/:/var/log/nginx/
+      - $PWD/logs/nginx/:/var/log/nginx/
     restart: always
     # traefik commands
     labels:

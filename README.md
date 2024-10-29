@@ -65,8 +65,10 @@ for redis cli:
 
     docker exec -it redis redis-cli -p 4721
 
-to edit redis .conf or read .log, need to own the file first:
+to edit redis .conf, need to own the file first:
 
     sudo chown master ./redis/redis.conf
-    sudo chmod +r redis/.log 
 
+to delete all logs
+
+    sudo rm -rf ./logs ; chmod +x init.sh ; ./init.sh

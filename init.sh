@@ -25,3 +25,8 @@ echo "bugfix for redis logs permission issue"  # see https://unix.stackexchange.
 mkdir -p logs/redis
 touch logs/redis/redis-server.log
 chmod 660 logs/redis/redis-server.log
+
+echo "make uwsgi logs readable"
+mkdir -p logs/nginx
+touch logs/nginx/cart-err.log
+chmod 660 logs/nginx/cart-err.log
