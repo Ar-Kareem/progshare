@@ -79,8 +79,9 @@ services:
 
       # AUTO GENERATE SSL
       - --certificatesResolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      # STAGING SERVER (MUST UNCOMMENT IF RE-RUNNING MULTIPLE TIMES) (lets encrypt has limitation on the number of certificates to issue per month, 50/week I think)
       # use staging server for the generation of ssl (for testing only, to not reach quota limit) (must uncomment otherwise browser will show warning for the ssl certificate)
-      - --certificatesResolvers.myresolver.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
+      # - --certificatesResolvers.myresolver.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
       - --certificatesResolvers.myresolver.acme.httpChallenge.entryPoint=web
 
       # external traefik settings
