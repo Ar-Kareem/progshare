@@ -39,6 +39,7 @@ def lastbackup():
 
 @app.route('/isup')
 def isup():
+    logger.info('isup. ip: %s', get_ip())
     return cache.get('isup')
 
 @app.route('/save_prog', methods=['POST'])
@@ -54,7 +55,7 @@ def save_prog():
         return {'resp': 'error', 'error': 'prog too long'}
     metaprog = {
         'ts': int(time.time()),
-        'ip': request.remote_addr,
+        'ip': get_ip(),
         'sz': len(prog),
     }
     try:
@@ -86,3 +87,9 @@ def get_prog():
     else:
         return {'resp': 'error', 'error': 'key not found'}
 
+def get_ip():
+    return request.access_route[-1]  # [-1] is the last X-Forwarded-For IP which is the client IP (set by Traefik)
+    # if request.access_route:
+    #     return request.access_route[-1]
+    # else:
+    #     return request.remote_addr
