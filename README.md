@@ -97,4 +97,4 @@ to edit redis .conf, need to own the file first:
 
 to delete all logs
 
-    sudo rm -rf ./logs ; chmod +x init.sh ; ./init.sh
+    chmod +x rm_logs.sh; ./rm_logs.sh
