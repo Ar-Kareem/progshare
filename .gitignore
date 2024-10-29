@@ -3,3 +3,4 @@
 /app/.env
 /logs/
 /letsencrypt/
+/db_backups/z*.rdb

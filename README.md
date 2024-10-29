@@ -33,6 +33,10 @@
     chmod +x ./healthcheck_ssl.sh ; ./healthcheck_ssl.sh
 
 
+## Database Backup
+
+You should periodically run the `.sh` or `.ps` script in  `./db_backups/` to make backups of the redis database.
+
 ## Read logs
 
 You should check logs to make sure no critical errors happened. Run the following and look at the output:
