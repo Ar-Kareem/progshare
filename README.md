@@ -13,10 +13,26 @@
     (if you want the local redis port open)
     docker compose -f docker-compose.yml -f docker-compose-redisport.yml up --build --remove-orphans --force-recreate -d
 
+## Requirements:
+
+- All above commands ran successfully
+- The domain `$DOMAIN` in the `./.env` file points to the machine running the docker container (both ports `80` and `443`).
+    - Example for home-server using sqaurespace domain: 
+        - Go to squarespace `DNS Settings` and add a `Custom record` which makes `$DOMAIN` point to [your ip](https://api.ipify.org/?format=text)
+        - make sure [your ip](https://api.ipify.org/?format=text) router forwards incoming traffic from ports `80` and `443` to the static-ip of the device running the docker container.
+        - To check run `dig $DOMAIN +nostats +nocomments +nocmd` and make sure domain points to server-ip.
+
+## Health Check
+
+    chmod +x ./healthcheck.sh ; ./healthcheck.sh
+
+If successful then terminal should output `Is Alive: yes`.
+
 ## Read logs
 
-    chmod +x tail_logs.sh
-    ./tail_logs.sh
+You should check logs to make sure no critical errors happened. Run the following and look at the output:
+
+    chmod +x tail_logs.sh; ./tail_logs.sh
 
 ## other commands
 
@@ -31,7 +47,7 @@ RSYNC DB from pi:
 
 RSYNC directory from pi: (shouldn't need to use this)
 
-    rsync -r --exclude "venv" --rsync-path="sudo rsync" master@192.168.100.243:/home/master/progshare/ ./progshare/
+    rsync -r --exclude "venv" --exclude ".git" --rsync-path="sudo rsync" master@192.168.100.243:/home/master/progshare/ ./progshare/
 
 stop -> pull -> start:
 

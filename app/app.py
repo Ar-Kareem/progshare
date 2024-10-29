@@ -32,6 +32,10 @@ def lastbackup():
     ls = cache.lastsave()
     return str(ls)
 
+@app.route('/isup')
+def isup():
+    return 'yes'
+
 @app.route('/save_prog', methods=['POST'])
 def save_prog():
     try:
