@@ -1,3 +1,14 @@
+Very simple backend that supports settings and gettings public arbitrary strings of text (limited to 16KB). 
+
+This project is utilized in https://github.com/Ar-Kareem/PythonDiceWeb
+
+Uses three docker containers: 
+
+1. Reverse Proxy: Traefik [ports are exposed to internet]
+
+2. The server: nginx + uwsgi + Python Flask [nginx implements rate limiting per ip]
+
+3. Database: Redis
 
 # Gettings started:
 
