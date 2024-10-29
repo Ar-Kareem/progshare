@@ -7,6 +7,10 @@ import redis
 import redis.exceptions
 from flask import Flask, request
 
+logging.basicConfig(filename='/var/log/nginx/flaskapp.log',
+                    filemode='a',
+                    format='%(asctime)s %(name)s %(levelname)s %(message)s',
+                    level=logging.DEBUG)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

@@ -33,7 +33,9 @@ mkdir -p logs/redis
 touch logs/redis/redis-server.log
 chmod 660 logs/redis/redis-server.log
 
-echo "make uwsgi logs readable"
+echo "make uwsgi/flask logs readable"
 mkdir -p logs/nginx
 touch logs/nginx/cart-err.log
 chmod 660 logs/nginx/cart-err.log
+touch logs/nginx/flaskapp.log
+chmod 666 logs/nginx/flaskapp.log
