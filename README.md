@@ -13,6 +13,11 @@
     (if you want the local redis port open)
     docker compose -f docker-compose.yml -f docker-compose-redisport.yml up --build --remove-orphans --force-recreate -d
 
+## Read logs
+
+    chmod +x tail_logs.sh
+    ./tail_logs.sh
+
 ## other commands
 
 vscode can view DB if you ssh into the server and connect to redis using `Database Client JDBC` extension.
