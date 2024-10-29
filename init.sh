@@ -13,13 +13,20 @@ fi
 if [ -d "./venv" ]; then
     echo "Virtual environment exists. Sourcing..."
     source ./venv/bin/activate
+    echo "Ensure python and pip are sourced from virtual environment"
+    which python
+    which pip
 else
     echo "Virtual environment does not exist. Creating and sourcing..."
     python3 -m venv ./venv
     source ./venv/bin/activate
+    echo "Ensure python and pip are sourced from virtual environment"
+    which python
+    which pip
     pip install --upgrade pip
 fi
-pip install -r ./app/requirements.txt
+echo "Installing requirements"
+pip install -r ./app/requirements.txt | grep -v 'already satisfied'
 
 echo "bugfix for redis logs permission issue"  # see https://unix.stackexchange.com/a/408510
 mkdir -p logs/redis
