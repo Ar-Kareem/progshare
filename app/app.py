@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 import redis
 import redis.exceptions
+import flask
 from flask import Flask, request
 
 logging.basicConfig(filename='/var/log/nginx/flaskapp.log',
@@ -44,6 +45,11 @@ def isup():
 
 @app.route('/save_prog', methods=['POST'])
 def save_prog():
+    r = _save_prog()
+    response = flask.jsonify(r)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+def _save_prog():
     try:
         post_data = request.get_json()
         prog = post_data['prog']
@@ -69,6 +75,12 @@ def save_prog():
 
 @app.route('/get_prog', methods=['POST'])
 def get_prog():
+    r = _get_prog()
+    response = flask.jsonify(r)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+def _get_prog():
     try:
         post_data = request.get_json()
         key = post_data['key']
