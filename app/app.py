@@ -45,10 +45,7 @@ def isup():
 
 @app.route('/save_prog', methods=['POST'])
 def save_prog():
-    r = _save_prog()
-    response = flask.jsonify(r)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+    return allow_origin(flask.jsonify(_save_prog()))
 def _save_prog():
     try:
         post_data = request.get_json()
@@ -65,9 +62,9 @@ def _save_prog():
         'sz': len(prog),
     }
     try:
-        key = cache.incr('count_prog')
-        cache.set('prog:' + str(key), prog)
-        cache.hmset('prog:' + str(key) + ':meta', metaprog)
+        key = str(cache.incr('count_prog'))
+        cache.set('prog:' + key, prog)
+        cache.hmset('prog:' + key + ':meta', metaprog)
         return {'resp': 'success', 'key': key}
     except Exception as e:
         return {'resp': 'error', 'error': 'db connection error'}
@@ -75,11 +72,7 @@ def _save_prog():
 
 @app.route('/get_prog', methods=['POST'])
 def get_prog():
-    r = _get_prog()
-    response = flask.jsonify(r)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
-
+    return allow_origin(flask.jsonify(_get_prog()))
 def _get_prog():
     try:
         post_data = request.get_json()
@@ -98,6 +91,10 @@ def _get_prog():
         return {'resp': 'success', 'prog': prog}
     else:
         return {'resp': 'error', 'error': 'key not found'}
+
+def allow_origin(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 def get_ip():
     return request.access_route[-1]  # [-1] is the last X-Forwarded-For IP which is the client IP (set by Traefik)
