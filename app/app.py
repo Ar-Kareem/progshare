@@ -81,7 +81,7 @@ def _get_prog():
         return {'resp': 'error', 'error': 'invalid JSON'}
     try:
         int(key)
-    except ValueError:
+    except Exception:
         return {'resp': 'error', 'error': 'key must be an integer'}
     prog = cache.get('prog:' + str(key))
     if not isinstance(prog, bytes):
